@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function setCurrentDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            const datetimeLocal = `${year}-${month}-${day}T${hours}:${minutes}`;
+            document.getElementById('transaction_time').value = datetimeLocal;
+        }
+
+        window.onload = setCurrentDateTime;
+    </script>
+</head>
+<body>
+    <h1>Prediction Form</h1>
+    <form action="/predict" method="post">
+        <label for="transaction_amount">Transaction Amount:</label>
+        <input type="number" step="0.01" id="transaction_amount" name="transaction_amount" required><br><br>
+        
+        <label for="transaction_time">Transaction Time:</label>
+        <input type="datetime-local" id="transaction_time" name="transaction_time" required><br><br>
+
+        <label for="user_upi_id">User UPI ID:</label>
+        <input type="text" id="user_upi_id" name="user_upi_id" required><br><br>
+        
+        <label for="merchant_upi_id">Merchant UPI ID:</label>
+        <input type="text" id="merchant_upi_id" name="merchant_upi_id" required><br><br>
+        
+        <label for="transaction_type">Transaction Type:</label>
+        <select id="transaction_type" name="transaction_type" required>
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
