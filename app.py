@@ -4,9 +4,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from flask import Flask, render_template, request, redirect, url_for
 import pickle
 import datetime
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+
 
 app = Flask(__name__)
 
@@ -58,33 +56,7 @@ def contact():
         
         print(f"Received message from {name} ({email}): {message}")
         
-        # Email server configuration
-        sender_email = 'tecnocracy.nitrr@gmail.com'
-        sender_password = 'jnca hltp hfuk yutb'
-        receiver_email = email  # Use the email address provided in the form
         
-        # Email to the user
-        msg_to_user = MIMEMultipart()
-        msg_to_user['From'] = sender_email
-        msg_to_user['To'] = receiver_email
-        msg_to_user['Subject'] = 'We Received Your Message'
-        
-        body_to_user = f"Hello {name},\n\nThank you for reaching out to us. We have received your message and will get back to you soon.\n\nYour Message:\n{message}\n\nBest regards,\nYour Company"
-        msg_to_user.attach(MIMEText(body_to_user, 'plain'))
-        
-        try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
-            server.login(sender_email, sender_password)
-            
-            # Send email to the user
-            text_to_user = msg_to_user.as_string()
-            server.sendmail(sender_email, receiver_email, text_to_user)
-            print('Email to user sent successfully')
-            
-            server.quit()
-        except Exception as e:
-            print(f"Failed to send email: {e}")
         
         return redirect(url_for('home'))
     return render_template('contact.html')
