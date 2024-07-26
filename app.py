@@ -81,8 +81,7 @@ def predict():
             user_id = request.form['user_id']
             merchant_id = request.form['merchant_id']
 
-            if not user_id.startswith('U') or not merchant_id.startswith('M'):
-                raise ValueError("Invalid user or merchant ID format")
+            
 
             prediction = prediction_conversion_function(transaction_amount, transaction_type, user_id, merchant_id, old_balance_merchant, old_balance_user)
             
